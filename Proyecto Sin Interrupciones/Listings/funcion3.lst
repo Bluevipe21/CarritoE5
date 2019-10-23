@@ -1,0 +1,758 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;Se deben utilizar resistencias PULL-DOWN
+    2 00000000         
+    3 00000000         
+    4 00000000         
+    5 00000000         
+    6 00000000 40004010 
+                       PA2     EQU              0x40004010
+    7 00000000 40004080 
+                       PA5     EQU              0x40004080
+    8 00000000 40004100 
+                       PA6     EQU              0x40004100
+    9 00000000 40004200 
+                       PA7     EQU              0x40004200
+   10 00000000 0196E6AB 
+                       FIVESEC EQU              26666667    ; approximately 5s 
+                                                            delay at ~16 MHz cl
+                                                            ock
+   11 00000000 00F42400 
+                       THREESEC
+                               EQU              16000000
+   12 00000000 004C4B40 
+                       TWOSEC  EQU              5000000
+   13 00000000 0028B0AB 
+                       ONESEC  EQU              2666667     ;Tiempo para los gi
+                                                            ros de 90 grados
+   14 00000000         ;Registros para puerto D
+   15 00000000 4000703C 
+                       LEDS    EQU              0x4000703C  ; Acceso a PD3-PD0
+   16 00000000         ;PD0 enciende con 0x01 ---- IN1
+   17 00000000         ;PD1 enciende con 0x02   --- IN2
+   18 00000000         ;PD2 enciende con 0x04 ---- IN3
+   19 00000000         ;PD3 enciende con 0x08 ---- IN4
+   20 00000000 00000001 
+                       IN1     EQU              0x01
+   21 00000000 00000002 
+                       IN2     EQU              0x02
+   22 00000000 00000004 
+                       IN3     EQU              0x04
+   23 00000000 00000008 
+                       IN4     EQU              0x08
+   24 00000000 00000000 
+                       APAGAR  EQU              0x00
+   25 00000000         
+   26 00000000         
+   27 00000000         ;Registros para puerto F 
+   28 00000000 400253FC 
+                       GPIO_PORTF_DATA_R
+                               EQU              0x400253FC
+   29 00000000         
+   30 00000000         
+   31 00000000 00000008 
+                       GREEN   EQU              0x08
+   32 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
+2
+   33 00000000                 THUMB
+   34 00000000                 EXPORT           PA6PRESSED
+   35 00000000                 IMPORT           PortF_Output
+   36 00000000                 IMPORT           delay
+   37 00000000                 IMPORT           Loop
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   38 00000000         PA6PRESSED
+   39 00000000 F04F 0400       MOV              R4,#0
+   40 00000004 F04F 0408       MOV              R4,#GREEN   ;se enciende el led
+                                                             azul PF2
+   41 00000008 F7FF FFFE       BL               PortF_Output
+   42 0000000C BF00            NOP
+   43 0000000E BF00            NOP
+   44 00000010 486C            LDR              R0,=FIVESEC ;Asigna valor de re
+                                                            tardo
+   45 00000012 F7FF FFFE       BL               delay       ;Ejecuta el retardo
+                                                            
+   46 00000016         ;Aqui comenzar la funcion
+   47 00000016         ;Mover recto
+   48 00000016 F04F 0105       LDR              R1,=(IN1+IN3)
+   49 0000001A 486B            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+   50 0000001C 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+   51 0000001E 486B            LDR              R0,=2500000
+   52 00000020 F7FF FFFE       BL               delay
+   53 00000024 F04F 0100       LDR              R1,=APAGAR
+   54 00000028 4867            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+   55 0000002A 6001            STR              R1, [R0]
+   56 0000002C         ;Giro
+   57 0000002C F04F 0101       LDR              R1,=(IN1)
+   58 00000030 4865            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+   59 00000032 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+   60 00000034 4866            LDR              R0,=4100000
+   61 00000036 F7FF FFFE       BL               delay
+   62 0000003A F04F 0100       LDR              R1,=APAGAR
+   63 0000003E 4862            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+   64 00000040 6001            STR              R1, [R0]
+   65 00000042         ;Mover recto
+   66 00000042 F04F 0105       LDR              R1,=(IN1+IN3)
+   67 00000046 4860            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+   68 00000048 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+   69 0000004A 4862            LDR              R0,=TWOSEC
+   70 0000004C F7FF FFFE       BL               delay
+   71 00000050 F04F 0100       LDR              R1,=APAGAR
+   72 00000054 485C            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   73 00000056 6001            STR              R1, [R0]
+   74 00000058         ;Giro
+   75 00000058 F04F 0104       LDR              R1,=(IN3)
+   76 0000005C 485A            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+   77 0000005E 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+   78 00000060 485D            LDR              R0,=3700000
+   79 00000062 F7FF FFFE       BL               delay
+   80 00000066 F04F 0100       LDR              R1,=APAGAR
+   81 0000006A 4857            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+   82 0000006C 6001            STR              R1, [R0]
+   83 0000006E         ;Mover recto
+   84 0000006E F04F 0105       LDR              R1,=(IN1+IN3)
+   85 00000072 4855            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+   86 00000074 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+   87 00000076 4855            LDR              R0,=2500000
+   88 00000078 F7FF FFFE       BL               delay
+   89 0000007C F04F 0100       LDR              R1,=APAGAR
+   90 00000080 4851            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+   91 00000082 6001            STR              R1, [R0]
+   92 00000084         ;Giro
+   93 00000084 F04F 0109       LDR              R1,=(IN4+IN1)
+   94 00000088 484F            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+   95 0000008A 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+   96 0000008C 4853            LDR              R0,=4800000
+   97 0000008E F7FF FFFE       BL               delay
+   98 00000092 F04F 0100       LDR              R1,=APAGAR
+   99 00000096 484C            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  100 00000098 6001            STR              R1, [R0]
+  101 0000009A         ;Mover recto
+  102 0000009A F04F 0105       LDR              R1,=(IN1+IN3)
+  103 0000009E 484A            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  104 000000A0 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+  105 000000A2 484F            LDR              R0,=3000000
+  106 000000A4 F7FF FFFE       BL               delay
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+  107 000000A8 F04F 0100       LDR              R1,=APAGAR
+  108 000000AC 4846            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  109 000000AE 6001            STR              R1, [R0]
+  110 000000B0         ;Giro
+  111 000000B0 F04F 0101       LDR              R1,=(IN1)
+  112 000000B4 4844            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  113 000000B6 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+  114 000000B8 484A            LDR              R0,=4300000
+  115 000000BA F7FF FFFE       BL               delay
+  116 000000BE F04F 0100       LDR              R1,=APAGAR
+  117 000000C2 4841            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  118 000000C4 6001            STR              R1, [R0]
+  119 000000C6         ;Mover recto
+  120 000000C6 F04F 0105       LDR              R1,=(IN1+IN3)
+  121 000000CA 483F            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  122 000000CC 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+  123 000000CE 4846            LDR              R0,=2800000
+  124 000000D0 F7FF FFFE       BL               delay
+  125 000000D4 F04F 0100       LDR              R1,=APAGAR
+  126 000000D8 483B            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  127 000000DA 6001            STR              R1, [R0]
+  128 000000DC         ;Giro
+  129 000000DC F04F 0101       LDR              R1,=(IN1)
+  130 000000E0 4839            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  131 000000E2 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+  132 000000E4 483F            LDR              R0,=4300000
+  133 000000E6 F7FF FFFE       BL               delay
+  134 000000EA F04F 0100       LDR              R1,=APAGAR
+  135 000000EE 4836            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  136 000000F0 6001            STR              R1, [R0]
+  137 000000F2         ;Mover recto
+  138 000000F2 F04F 0105       LDR              R1,=(IN1+IN3)
+  139 000000F6 4834            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+
+
+
+ARM Macro Assembler    Page 5 
+
+
+                                                            
+  140 000000F8 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+  141 000000FA 4834            LDR              R0,=2500000
+  142 000000FC F7FF FFFE       BL               delay
+  143 00000100 F04F 0100       LDR              R1,=APAGAR
+  144 00000104 4830            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  145 00000106 6001            STR              R1, [R0]
+  146 00000108         ;Giro
+  147 00000108 F04F 0104       LDR              R1,=(IN3)
+  148 0000010C 482E            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  149 0000010E 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+  150 00000110 4834            LDR              R0,=4300000
+  151 00000112 F7FF FFFE       BL               delay
+  152 00000116 F04F 0100       LDR              R1,=APAGAR
+  153 0000011A 482B            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  154 0000011C 6001            STR              R1, [R0]
+  155 0000011E         ;Mover recto
+  156 0000011E F04F 0105       LDR              R1,=(IN1+IN3)
+  157 00000122 4829            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  158 00000124 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+  159 00000126 4831            LDR              R0,=2200000
+  160 00000128 F7FF FFFE       BL               delay
+  161 0000012C F04F 0100       LDR              R1,=APAGAR
+  162 00000130 4825            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  163 00000132 6001            STR              R1, [R0]
+  164 00000134         ;Giro
+  165 00000134 F04F 0109       LDR              R1,=(IN4+IN1)
+  166 00000138 4823            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  167 0000013A 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+  168 0000013C 482C            LDR              R0,=5200000
+  169 0000013E F7FF FFFE       BL               delay
+  170 00000142 F04F 0100       LDR              R1,=APAGAR
+  171 00000146 4820            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  172 00000148 6001            STR              R1, [R0]
+
+
+
+ARM Macro Assembler    Page 6 
+
+
+  173 0000014A         ;Mover recto
+  174 0000014A F04F 0105       LDR              R1,=(IN1+IN3)
+  175 0000014E 481E            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  176 00000150 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+  177 00000152 4826            LDR              R0,=2200000
+  178 00000154 F7FF FFFE       BL               delay
+  179 00000158 F04F 0100       LDR              R1,=APAGAR
+  180 0000015C 481A            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  181 0000015E 6001            STR              R1, [R0]
+  182 00000160         ;Giro
+  183 00000160 F04F 0101       LDR              R1,=(IN1)
+  184 00000164 4818            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  185 00000166 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+  186 00000168 4822            LDR              R0,=4000000
+  187 0000016A F7FF FFFE       BL               delay
+  188 0000016E F04F 0100       LDR              R1,=APAGAR
+  189 00000172 4815            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  190 00000174 6001            STR              R1, [R0]
+  191 00000176         ;Mover recto
+  192 00000176 F04F 0105       LDR              R1,=(IN1+IN3)
+  193 0000017A 4813            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  194 0000017C 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+  195 0000017E 4815            LDR              R0,=TWOSEC
+  196 00000180 F7FF FFFE       BL               delay
+  197 00000184 F04F 0100       LDR              R1,=APAGAR
+  198 00000188 480F            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  199 0000018A 6001            STR              R1, [R0]
+  200 0000018C         ;Giro
+  201 0000018C F04F 0104       LDR              R1,=(IN3)
+  202 00000190 480D            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  203 00000192 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+  204 00000194 4817            LDR              R0,=4000000
+  205 00000196 F7FF FFFE       BL               delay
+  206 0000019A F04F 0100       LDR              R1,=APAGAR
+
+
+
+ARM Macro Assembler    Page 7 
+
+
+  207 0000019E 480A            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  208 000001A0 6001            STR              R1, [R0]
+  209 000001A2         ;Mover recto
+  210 000001A2 F04F 0105       LDR              R1,=(IN1+IN3)
+  211 000001A6 4808            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  212 000001A8 6001            STR              R1, [R0]    ; [R0] = R1 = 9 PD0
+                                                             ENCIENDE - IN4
+  213 000001AA 4808            LDR              R0,=2500000
+  214 000001AC F7FF FFFE       BL               delay
+  215 000001B0 F04F 0100       LDR              R1,=APAGAR
+  216 000001B4 4804            LDR              R0, =LEDS   ;se asigna R0 como 
+                                                            registro de control
+                                                             para los puertos D
+                                                            
+  217 000001B6 6001            STR              R1, [R0]
+  218 000001B8         
+  219 000001B8 F04F 0400       MOV              R4,#0       ;se asigna 0 al val
+                                                            or de salida de PF2
+                                                            
+  220 000001BC F7FF FFFE       BL               PortF_Output ;establece valor d
+                                                            e salida de PF2
+  221 000001C0 F7FF FFFE       BL               Loop
+  222 000001C4         
+  223 000001C4                 ALIGN
+  224 000001C4                 END
+              0196E6AB 
+              4000703C 
+              002625A0 
+              003E8FA0 
+              004C4B40 
+              00387520 
+              00493E00 
+              002DC6C0 
+              00419CE0 
+              002AB980 
+              002191C0 
+              004F5880 
+              003D0900 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\funcion3.d -o.\objects\funcion3.o -I.\RTE\_Target_1 -
+I"C:\Users\Luis Hernandez\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\In
+clude\TM4C123" -IC:\ARM\CMSIS\Include --predefine="__EVAL SETA 1" --predefine="
+__UVISION_VERSION SETA 528" --predefine="TM4C123GH6PM SETA 1" --list=.\listings
+\funcion3.lst Funcion3.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 32 in file Funcion3.s
+   Uses
+      None
+Comment: .text unused
+PA6PRESSED 00000000
+
+Symbol: PA6PRESSED
+   Definitions
+      At line 38 in file Funcion3.s
+   Uses
+      At line 34 in file Funcion3.s
+Comment: PA6PRESSED used once
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+APAGAR 00000000
+
+Symbol: APAGAR
+   Definitions
+      At line 24 in file Funcion3.s
+   Uses
+      At line 53 in file Funcion3.s
+      At line 62 in file Funcion3.s
+      At line 71 in file Funcion3.s
+      At line 80 in file Funcion3.s
+      At line 89 in file Funcion3.s
+      At line 98 in file Funcion3.s
+      At line 107 in file Funcion3.s
+      At line 116 in file Funcion3.s
+      At line 125 in file Funcion3.s
+      At line 134 in file Funcion3.s
+      At line 143 in file Funcion3.s
+      At line 152 in file Funcion3.s
+      At line 161 in file Funcion3.s
+      At line 170 in file Funcion3.s
+      At line 179 in file Funcion3.s
+      At line 188 in file Funcion3.s
+      At line 197 in file Funcion3.s
+      At line 206 in file Funcion3.s
+      At line 215 in file Funcion3.s
+
+FIVESEC 0196E6AB
+
+Symbol: FIVESEC
+   Definitions
+      At line 10 in file Funcion3.s
+   Uses
+      At line 44 in file Funcion3.s
+Comment: FIVESEC used once
+GPIO_PORTF_DATA_R 400253FC
+
+Symbol: GPIO_PORTF_DATA_R
+   Definitions
+      At line 28 in file Funcion3.s
+   Uses
+      None
+Comment: GPIO_PORTF_DATA_R unused
+GREEN 00000008
+
+Symbol: GREEN
+   Definitions
+      At line 31 in file Funcion3.s
+   Uses
+      At line 40 in file Funcion3.s
+Comment: GREEN used once
+IN1 00000001
+
+Symbol: IN1
+   Definitions
+      At line 20 in file Funcion3.s
+   Uses
+      At line 48 in file Funcion3.s
+      At line 57 in file Funcion3.s
+      At line 66 in file Funcion3.s
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Absolute symbols
+
+      At line 84 in file Funcion3.s
+      At line 93 in file Funcion3.s
+      At line 102 in file Funcion3.s
+      At line 111 in file Funcion3.s
+      At line 120 in file Funcion3.s
+      At line 129 in file Funcion3.s
+      At line 138 in file Funcion3.s
+      At line 156 in file Funcion3.s
+      At line 165 in file Funcion3.s
+      At line 174 in file Funcion3.s
+      At line 183 in file Funcion3.s
+      At line 192 in file Funcion3.s
+      At line 210 in file Funcion3.s
+
+IN2 00000002
+
+Symbol: IN2
+   Definitions
+      At line 21 in file Funcion3.s
+   Uses
+      None
+Comment: IN2 unused
+IN3 00000004
+
+Symbol: IN3
+   Definitions
+      At line 22 in file Funcion3.s
+   Uses
+      At line 48 in file Funcion3.s
+      At line 66 in file Funcion3.s
+      At line 75 in file Funcion3.s
+      At line 84 in file Funcion3.s
+      At line 102 in file Funcion3.s
+      At line 120 in file Funcion3.s
+      At line 138 in file Funcion3.s
+      At line 147 in file Funcion3.s
+      At line 156 in file Funcion3.s
+      At line 174 in file Funcion3.s
+      At line 192 in file Funcion3.s
+      At line 201 in file Funcion3.s
+      At line 210 in file Funcion3.s
+
+IN4 00000008
+
+Symbol: IN4
+   Definitions
+      At line 23 in file Funcion3.s
+   Uses
+      At line 93 in file Funcion3.s
+      At line 165 in file Funcion3.s
+
+LEDS 4000703C
+
+Symbol: LEDS
+   Definitions
+      At line 15 in file Funcion3.s
+   Uses
+      At line 49 in file Funcion3.s
+      At line 54 in file Funcion3.s
+
+
+
+ARM Macro Assembler    Page 3 Alphabetic symbol ordering
+Absolute symbols
+
+      At line 58 in file Funcion3.s
+      At line 63 in file Funcion3.s
+      At line 67 in file Funcion3.s
+      At line 72 in file Funcion3.s
+      At line 76 in file Funcion3.s
+      At line 81 in file Funcion3.s
+      At line 85 in file Funcion3.s
+      At line 90 in file Funcion3.s
+      At line 94 in file Funcion3.s
+      At line 99 in file Funcion3.s
+      At line 103 in file Funcion3.s
+      At line 108 in file Funcion3.s
+      At line 112 in file Funcion3.s
+      At line 117 in file Funcion3.s
+      At line 121 in file Funcion3.s
+      At line 126 in file Funcion3.s
+      At line 130 in file Funcion3.s
+      At line 135 in file Funcion3.s
+      At line 139 in file Funcion3.s
+      At line 144 in file Funcion3.s
+      At line 148 in file Funcion3.s
+      At line 153 in file Funcion3.s
+      At line 157 in file Funcion3.s
+      At line 162 in file Funcion3.s
+      At line 166 in file Funcion3.s
+      At line 171 in file Funcion3.s
+      At line 175 in file Funcion3.s
+      At line 180 in file Funcion3.s
+      At line 184 in file Funcion3.s
+      At line 189 in file Funcion3.s
+      At line 193 in file Funcion3.s
+      At line 198 in file Funcion3.s
+      At line 202 in file Funcion3.s
+      At line 207 in file Funcion3.s
+      At line 211 in file Funcion3.s
+      At line 216 in file Funcion3.s
+
+ONESEC 0028B0AB
+
+Symbol: ONESEC
+   Definitions
+      At line 13 in file Funcion3.s
+   Uses
+      None
+Comment: ONESEC unused
+PA2 40004010
+
+Symbol: PA2
+   Definitions
+      At line 6 in file Funcion3.s
+   Uses
+      None
+Comment: PA2 unused
+PA5 40004080
+
+Symbol: PA5
+   Definitions
+      At line 7 in file Funcion3.s
+   Uses
+
+
+
+ARM Macro Assembler    Page 4 Alphabetic symbol ordering
+Absolute symbols
+
+      None
+Comment: PA5 unused
+PA6 40004100
+
+Symbol: PA6
+   Definitions
+      At line 8 in file Funcion3.s
+   Uses
+      None
+Comment: PA6 unused
+PA7 40004200
+
+Symbol: PA7
+   Definitions
+      At line 9 in file Funcion3.s
+   Uses
+      None
+Comment: PA7 unused
+THREESEC 00F42400
+
+Symbol: THREESEC
+   Definitions
+      At line 11 in file Funcion3.s
+   Uses
+      None
+Comment: THREESEC unused
+TWOSEC 004C4B40
+
+Symbol: TWOSEC
+   Definitions
+      At line 12 in file Funcion3.s
+   Uses
+      At line 69 in file Funcion3.s
+      At line 195 in file Funcion3.s
+
+16 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+Loop 00000000
+
+Symbol: Loop
+   Definitions
+      At line 37 in file Funcion3.s
+   Uses
+      At line 221 in file Funcion3.s
+Comment: Loop used once
+PortF_Output 00000000
+
+Symbol: PortF_Output
+   Definitions
+      At line 35 in file Funcion3.s
+   Uses
+      At line 41 in file Funcion3.s
+      At line 220 in file Funcion3.s
+
+delay 00000000
+
+Symbol: delay
+   Definitions
+      At line 36 in file Funcion3.s
+   Uses
+      At line 45 in file Funcion3.s
+      At line 52 in file Funcion3.s
+      At line 61 in file Funcion3.s
+      At line 70 in file Funcion3.s
+      At line 79 in file Funcion3.s
+      At line 88 in file Funcion3.s
+      At line 97 in file Funcion3.s
+      At line 106 in file Funcion3.s
+      At line 115 in file Funcion3.s
+      At line 124 in file Funcion3.s
+      At line 133 in file Funcion3.s
+      At line 142 in file Funcion3.s
+      At line 151 in file Funcion3.s
+      At line 160 in file Funcion3.s
+      At line 169 in file Funcion3.s
+      At line 178 in file Funcion3.s
+      At line 187 in file Funcion3.s
+      At line 196 in file Funcion3.s
+      At line 205 in file Funcion3.s
+      At line 214 in file Funcion3.s
+
+3 symbols
+357 symbols in table
