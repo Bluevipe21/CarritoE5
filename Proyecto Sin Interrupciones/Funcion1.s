@@ -56,7 +56,7 @@ PA2PRESSED
 	LDR R1,=(IN1)
 	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
 	STR R1, [R0]                    ; [R0] = R1 = 9 PD0 ENCIENDE - IN4
-	LDR R0,=4200000
+	LDR R0,=4500000
 	BL delay
 	LDR R1,=APAGAR
 	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
@@ -74,7 +74,7 @@ PA2PRESSED
 	LDR R1,=(IN1)
 	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
 	STR R1, [R0]                    ; [R0] = R1 = 9 PD0 ENCIENDE - IN4
-	LDR R0,=ONESEC
+	LDR R0,=4600000
 	BL delay
 	LDR R1,=APAGAR
 	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
@@ -92,7 +92,7 @@ PA2PRESSED
 	LDR R1,=(IN1)
 	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
 	STR R1, [R0]                    ; [R0] = R1 = 9 PD0 ENCIENDE - IN4
-	LDR R0,=4405000
+	LDR R0,=4400000
 	BL delay
 	LDR R1,=APAGAR
 	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D

@@ -54,7 +54,7 @@ PA5PRESSED
 	LDR R1,=(IN3)
 	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
 	STR R1, [R0]                    ; [R0] = R1 = 9 PD0 ENCIENDE - IN4
-	LDR R0,=ONESEC
+	LDR R0,=4200000
 	BL delay
 	LDR R1,=APAGAR
 	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
@@ -72,42 +72,6 @@ PA5PRESSED
 	LDR R1,=(IN3)
 	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
 	STR R1, [R0]                    ; [R0] = R1 = 9 PD0 ENCIENDE - IN4
-	LDR R0,=3200000
-	BL delay
-	LDR R1,=APAGAR
-	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
-	STR R1, [R0]
-	;Mover recto
-	LDR R1,=(IN1+IN3)
-	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
-	STR R1, [R0]                    ; [R0] = R1 = 9 PD0 ENCIENDE - IN4
-	LDR R0,=TWOSEC
-	BL delay
-	LDR R1,=APAGAR
-	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
-	STR R1, [R0]
-	;Giro
-	LDR R1,=(IN1)
-	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
-	STR R1, [R0]                    ; [R0] = R1 = 9 PD0 ENCIENDE - IN4
-	LDR R0,=4200000
-	BL delay
-	LDR R1,=APAGAR
-	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
-	STR R1, [R0]
-	;Mover recto
-	LDR R1,=(IN1+IN3)
-	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
-	STR R1, [R0]                    ; [R0] = R1 = 9 PD0 ENCIENDE - IN4
-	LDR R0,=TWOSEC
-	BL delay
-	LDR R1,=APAGAR
-	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
-	STR R1, [R0]
-	;Giro
-	LDR R1,=(IN1)
-	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
-	STR R1, [R0]                    ; [R0] = R1 = 9 PD0 ENCIENDE - IN4
 	LDR R0,=4100000
 	BL delay
 	LDR R1,=APAGAR
@@ -118,6 +82,42 @@ PA5PRESSED
 	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
 	STR R1, [R0]                    ; [R0] = R1 = 9 PD0 ENCIENDE - IN4
 	LDR R0,=TWOSEC
+	BL delay
+	LDR R1,=APAGAR
+	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
+	STR R1, [R0]
+	;Giro
+	LDR R1,=(IN1)
+	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
+	STR R1, [R0]                    ; [R0] = R1 = 9 PD0 ENCIENDE - IN4
+	LDR R0,=4300000
+	BL delay
+	LDR R1,=APAGAR
+	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
+	STR R1, [R0]
+	;Mover recto
+	LDR R1,=(IN1+IN3)
+	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
+	STR R1, [R0]                    ; [R0] = R1 = 9 PD0 ENCIENDE - IN4
+	LDR R0,=TWOSEC
+	BL delay
+	LDR R1,=APAGAR
+	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
+	STR R1, [R0]
+	;Giro
+	LDR R1,=(IN1)
+	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
+	STR R1, [R0]                    ; [R0] = R1 = 9 PD0 ENCIENDE - IN4
+	LDR R0,=4300000
+	BL delay
+	LDR R1,=APAGAR
+	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
+	STR R1, [R0]
+	;Mover recto
+	LDR R1,=(IN1+IN3)
+	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
+	STR R1, [R0]                    ; [R0] = R1 = 9 PD0 ENCIENDE - IN4
+	LDR R0,=5900000
 	BL delay
 	LDR R1,=APAGAR
 	LDR R0, =LEDS ;se asigna R0 como registro de control para los puertos D
