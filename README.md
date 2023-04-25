@@ -48,7 +48,7 @@ Loop
 As previously demonstrated, this portion of the code functions like a switch statement in C, where it reads a value and executes different actions based on the result. The Loop function was exported and imported into the Main.s file, and is subsequently called from within that file in the following code.
 
 
-<
+
 		AREA    |.text|, CODE, READONLY, ALIGN=2
         THUMB
         EXPORT  Start
@@ -59,7 +59,7 @@ Start
 	BL PortA_Init ; Configuration of inputs
 	BL PortF_Init ; Configurations of the led's from the microcontroller
 	B Loop 	      ; Read the button pressed
->
+
 
 
 In addition, the IMPORT of the function is defined here. The Start function subsequently executes the Loop function, after which the functions responsible for drawing the pictures - namely, PA2PRESSED, PA5PRESSED, PA6PRESSED, and PA7PRESSED - are called. To use these functions within the Read_Button.s file, they must first be imported from the corresponding files.
