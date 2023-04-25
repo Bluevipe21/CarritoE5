@@ -55,10 +55,10 @@ As previously demonstrated, this portion of the code functions like a switch sta
 		IMPORT Loop
 
 Start
-	BL PORTD_Init ; Configuration of outputs
-	BL PortA_Init ; Configuration of inputs
-	BL PortF_Init ; Configurations of the led's from the microcontroller
-	B Loop 	      ; Read the button pressed
+	BL PORTD_Init ; Función para la configuracion de salidas
+	BL PortA_Init ; Función para la configuracion de entradas (botones)
+	BL PortF_Init ; Función para la configuración de los leds propios del microcontrolador
+	B Loop
 
 
 
