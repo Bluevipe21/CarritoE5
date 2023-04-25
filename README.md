@@ -8,12 +8,13 @@ This project was carried out during my time at university and involved programmi
 
 <img src="carrito.jpg" style="width:40%">
 
-The file Main.s configure the ports that in this case drives the inputs (buttons) and outputs (H-Bridge circuit). For this project i used pull-down resistors with the buttons. For the outputs there no was neccessity of using a particular circuito because i used a modul __DRIVER SHIELD L298N__ for two motors. 
+The Main.s file configures the ports that drive the inputs (buttons) and outputs (H-Bridge circuit) in this project. For the buttons, I used pull-down resistors. As for the outputs, I didn't need to use a particular circuit because I used a module called the DRIVER SHIELD L298N to control the rotation of the car's two motors for certain pictures.
 
 <img src="motor.jpg" style="width:40%">
 
 
-El archivo Main.s maneja la configuración de los puertos (que se describen en el) y este llama posteriormente al archivo Read_Button.s que se encarga de leer los botones para saber cuál función realizar. Este último archivo tiene la funcionalidad de llamar a las funciones que dependiendo del botón que se presionó este realiza la acción (dibuja la figura). Las funciones para dibujar las figuras se encuentran en los archivos:
+After the Main.s file executes the configuration of the ports for the microcontroller, the Read_Button.s file is called, which is responsible for reading the inputs (buttons) and determining which one was pressed in order to call a function.
+
 
 1. Funcion1.s
 2. Funcion2.s
