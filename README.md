@@ -13,8 +13,7 @@ The Main.s file configures the ports that drive the inputs (buttons) and outputs
 <img src="motor.jpg" style="width:40%">
 
 
-After the Main.s file executes the configuration of the ports for the microcontroller, the Read_Button.s file is called, which is responsible for reading the inputs (buttons) and determining which one was pressed in order to call a function.
-
+After executing the configuration of the microcontroller's ports, the Main.s file calls the Read_Button.s file, which is responsible for reading the input signals from the buttons and determining which button was pressed in order to call a corresponding function.
 Loop
 	;PUSH {LR}
 	;LEER PA2
@@ -42,7 +41,9 @@ Loop
 	;POP {PC}
 	B Loop
 
-As its seen before this part of the code works as a switch in C that reads a value and depending of it will do something. This Loop function was exported and imported in the Main.s. In the next code we called the function from the Main.s
+As previously demonstrated, this portion of the code functions like a switch statement in C, where it reads a value and executes different actions based on the result. The Loop function was exported and imported into the Main.s file, and is subsequently called from within that file in the following code.
+
+
 
 		AREA    |.text|, CODE, READONLY, ALIGN=2
         THUMB
@@ -55,7 +56,7 @@ Start
 	B Loop
 
 
-Also we see that the IMPORT of the function is made it here. And inside the Start function is executed the Loop function. After this the functions to drawing the pictures are called, this functions are PA2PRESSED, PA5PRESSED, PA6PRESSED and PA7PRESSED. To use this functions inside the Read_Button.s we have to import the functions from the next files:
+In addition, the IMPORT of the function is defined here. The Start function subsequently executes the Loop function, after which the functions responsible for drawing the pictures - namely, PA2PRESSED, PA5PRESSED, PA6PRESSED, and PA7PRESSED - are called. To use these functions within the Read_Button.s file, they must first be imported from the corresponding files.
 
 1. Funcion1.s
 2. Funcion2.s
