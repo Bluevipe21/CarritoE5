@@ -1,15 +1,17 @@
-## Carrito para dibujar figuras
+## Car for drawing pictures
 
-### Funcionamiento
+### Functionality
 
-Este proyecto lo lleve en la universidad y consistía en hacer que un carrito realizará el movimiento para dibujar una imagen. El carrito era como el que se ve a continuación:
+This project was carried out during my time at university and involved programming a cart to perform movements and draw an image. The cart used for the project was similar to the one shown below. All of the cart's functions were programmed in assembly language and the project was developed for the Texas Instruments TM4C123GH6PM microcontroller.
 
 
 
 <img src="carrito.jpg" style="width:40%">
 
+The file Main.s configure the ports that in this case drives the inputs (buttons) and outputs (H-Bridge circuit). For this project i used pull-down resistors with the buttons. For the outputs there no was neccessity of using a particular circuito because i used a modul __DRIVER SHIELD L298N__ for two motors. 
 
-Básicamente se hace que el carrito se mueva con giros y movimientos temporizados utilizando el lenguaje ensamblador en el microcontrolador TM4C123GH6PM de Texas Instruments. Al presionar un botón se realiza una figura. 
+
+
 
 El archivo Main.s maneja la configuración de los puertos (que se describen en el) y este llama posteriormente al archivo Read_Button.s que se encarga de leer los botones para saber cuál función realizar. Este último archivo tiene la funcionalidad de llamar a las funciones que dependiendo del botón que se presionó este realiza la acción (dibuja la figura). Las funciones para dibujar las figuras se encuentran en los archivos:
 
