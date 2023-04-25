@@ -44,8 +44,18 @@ Loop
 
 As its seen before this part of the code works as a switch in C that reads a value and depending of it will do something. This Loop function was exported and imported in the Main.s. In the next code we called the function from the Main.s
 
+		AREA    |.text|, CODE, READONLY, ALIGN=2
+        THUMB
+        EXPORT  Start
+		IMPORT Loop
+Start
+	BL PORTD_Init ; Función para la configuracion de salidas
+	BL PortA_Init ; Función para la configuracion de entradas (botones)
+	BL PortF_Init ; Función para la configuración de los leds propios del microcontrolador
+	B Loop
 
 
+Also we see that the IMPORT of the function is made it here. And inside the Start function is executed the Loop function. 
 
 1. Funcion1.s
 2. Funcion2.s
