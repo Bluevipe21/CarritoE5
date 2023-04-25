@@ -55,7 +55,7 @@ Start
 	B Loop
 
 
-Also we see that the IMPORT of the function is made it here. And inside the Start function is executed the Loop function. 
+Also we see that the IMPORT of the function is made it here. And inside the Start function is executed the Loop function. After this the functions to drawing the pictures are called, this functions are PA2PRESSED, PA5PRESSED, PA6PRESSED and PA7PRESSED. To use this functions inside the Read_Button.s we have to import the functions from the next files:
 
 1. Funcion1.s
 2. Funcion2.s
@@ -63,5 +63,6 @@ Also we see that the IMPORT of the function is made it here. And inside the Star
 4. Funcion4.s
 
 
+Every file has the corresponding function to do the work. 
 
 
