@@ -15,6 +15,37 @@ The Main.s file configures the ports that drive the inputs (buttons) and outputs
 
 After the Main.s file executes the configuration of the ports for the microcontroller, the Read_Button.s file is called, which is responsible for reading the inputs (buttons) and determining which one was pressed in order to call a function.
 
+Loop
+	;PUSH {LR}
+	;LEER PA2
+	LDR R3,=PA2     ; pointer to PA2
+	BL  Switch_Input                 ; read all of the switches on Port A
+    CMP R4, #0x04                   ; R0 == 0x04?
+    BEQ PA2PRESSED                  ; if so, switch was pressed
+	;LEER PA5
+	LDR R3, =PA5      ; pointer to PA5
+	BL  Switch_Input                 ; read all of the switches on Port A
+    CMP R4, #0x20                   ; R0 == 0x20?
+    BEQ PA5PRESSED                  ; if so, switch was pressed
+	
+	;LEER PA6
+	LDR R3, =PA6      ; pointer to PA6
+	BL  Switch_Input                 ; read all of the switches on Port A
+    CMP R4, #0x40                   ; R0 == 0x40?
+    BEQ PA6PRESSED                  ; if so, switch was pressed
+	
+	;LEER PA7
+	LDR R3, =PA7      ; pointer to PA7
+	BL  Switch_Input                 ; read all of the switches on Port A
+    CMP R4, #0x80                   ; R0 == 0x80?
+    BEQ PA7PRESSED                  ; if so, switch was pressed
+	;POP {PC}
+	B Loop
+
+As its seen before this part of the code works as a switch in C that reads a value and depending of it will do something. This Loop function was exported and imported in the Main.s. In the next code we called the function from the Main.s
+
+
+
 
 1. Funcion1.s
 2. Funcion2.s
