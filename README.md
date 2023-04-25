@@ -17,7 +17,7 @@ After executing the configuration of the microcontroller's ports, the Main.s fil
 
 
 
-Loop
+    Loop
 	;PUSH {LR}
 	;LEER PA2
 	LDR R3,=PA2                 ; pointer to PA2
@@ -54,11 +54,11 @@ As previously demonstrated, this portion of the code functions like a switch sta
         EXPORT  Start
 		IMPORT Loop
 
-Start
-	BL PORTD_Init ; Función para la configuracion de salidas
-	BL PortA_Init ; Función para la configuracion de entradas (botones)
-	BL PortF_Init ; Función para la configuración de los leds propios del microcontrolador
-	B Loop
+    Start
+	BL PORTD_Init ; Configuration of outputs
+	BL PortA_Init ; Configuration of inputs (buttons)
+	BL PortF_Init ; Configuration of the led's from the microcontroller
+	B Loop        ; Check the pressed button
 
 
 
